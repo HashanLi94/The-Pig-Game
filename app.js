@@ -55,16 +55,34 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         roundScore += dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }else{
-        if(activePlayer == 0){
+        //Next player
+        if(activePlayer === 0){
             activePlayer = 1;
         }else{
-            activePlayer == 0;
+            activePlayer = 0;
+            
+
         }
+        //after the every dice == 1, roundscore should be 0
         roundScore = 0;
+        
+
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+
+        // document.querySelector('.player-0-panel').classList.remove('active');
+        // document.querySelector('.player-1-panel').classList.add('active');
+
+        //toggle : a key or command that is operated the same way but with opposite effect on successive occasions.
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+
+        //Hide the dice to next player start
+        document.querySelector('.dice').style.display = 'none';
     }
 
     
-
+    
 
 
 
