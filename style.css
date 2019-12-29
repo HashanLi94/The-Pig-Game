@@ -70,7 +70,7 @@ body {
     margin-bottom: 130px;
 }
 
-.active { background-color: #f7f7f7; }
+.active { background-color: gray; }
 .active .player-name { font-weight: 300; }
 
 .active .player-name::after {
@@ -90,6 +90,15 @@ body {
     margin: 0 auto;
     padding: 12px;
     text-align: center;
+}
+#box_1{
+    background-color: rgb(48, 48, 189);
+    color: #fff;
+    width: 40%;
+    margin: 0 auto;
+    padding: 12px;
+    text-align: center; 
+    
 }
 
 .player-current-label {
