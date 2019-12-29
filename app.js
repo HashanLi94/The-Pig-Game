@@ -9,10 +9,12 @@ GAME RULES:
 
 */
 
-var scores, roundScores, activePlayer, dice;
+var scores, roundScore, activePlayer, dice;
 
 scores = [0,0];
-activePlayer = 1;
+roundScore = 0;
+activePlayer = 0;
+
 //dice = Math.floor(Math.random() * 6) + 1;
 
 //document.querySelector('#current-' + activePlayer).textContent = dice;
@@ -26,6 +28,14 @@ activePlayer = 1;
 //qS uses as a style changer
 document.querySelector('.dice').style.display = 'none';
 
+//All the values are 0
+document.getElementById('score-0').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+
+
+
 //Start - click the roll dice to shuffle the dice
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
@@ -38,6 +48,23 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     var diceDom = document.querySelector('.dice');
     diceDom.style.display = 'block';
     diceDom.src = 'dice-' + dice + '.png';
+
+    //3. update the roundscore and if roundscore = 1 then change the player
+
+    if(dice !== 1){
+        roundScore += dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    }else{
+        if(activePlayer == 0){
+            activePlayer = 1;
+        }else{
+            activePlayer == 0;
+        }
+        roundScore = 0;
+    }
+
+    
+
 
 
 
