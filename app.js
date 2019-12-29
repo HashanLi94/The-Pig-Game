@@ -88,5 +88,25 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
 })
 
+//If we press the hold button simply shows the value of the in UI
+
+//1. print the value when press the hold
+
+document.querySelector('.btn-hold').addEventListener('click', function(){
+
+    //store the current active player's score
+    scores[activePlayer] = scores[activePlayer] + roundScore; //scores array stores the current value and roundscore adds to it
+    
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; //scores assign to the possition
+
+    
+
+
+
+
+})
+
+
+
 
 
