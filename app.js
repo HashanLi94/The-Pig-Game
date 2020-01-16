@@ -9,11 +9,9 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer, dice, gamePlaying;
 
-scores = [0,0];
-roundScore = 0;
-activePlayer = 0;
+init();
 
 //dice = Math.floor(Math.random() * 6) + 1;
 
@@ -26,13 +24,9 @@ activePlayer = 0;
 //document.querySelector('#current-' + activePlayer).innerHTML = "<em>" + dice + "</em>";
 
 //qS uses as a style changer
-document.querySelector('.dice').style.display = 'none';
+
 
 //All the values are 0
-document.getElementById('score-0').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('score-1').textContent = '0';
 
 
 
@@ -40,46 +34,25 @@ document.getElementById('score-1').textContent = '0';
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
     //1.get a random number
+    if(gamePlaying){
+        //var dice;
+        dice = Math.floor(Math.random() * 6) + 1;
 
-    var dice;
-    dice = Math.floor(Math.random() * 6) + 1;
+        //2.select the suitabale dice picture
+        var diceDom = document.querySelector('.dice');
+        diceDom.style.display = 'block';
+        diceDom.src = 'dice-' + dice + '.png';
 
-    //2.select the suitabale dice picture
-    var diceDom = document.querySelector('.dice');
-    diceDom.style.display = 'block';
-    diceDom.src = 'dice-' + dice + '.png';
+        //3. update the roundscore and if roundscore = 1 then change the player
 
-    //3. update the roundscore and if roundscore = 1 then change the player
-
-    if(dice !== 1){
-        roundScore += dice;
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
-    }else{
-        //Next player
-        if(activePlayer === 0){
-            activePlayer = 1;
+        if(dice !== 1){
+            roundScore += dice;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
         }else{
-            activePlayer = 0;
-            
-
+            nextPlayer();
         }
-        //after the every dice == 1, roundscore should be 0
-        roundScore = 0;
-        
-
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        // document.querySelector('.player-0-panel').classList.remove('active');
-        // document.querySelector('.player-1-panel').classList.add('active');
-
-        //toggle : a key or command that is operated the same way but with opposite effect on successive occasions.
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-
-        //Hide the dice to next player start
-        document.querySelector('.dice').style.display = 'none';
     }
+    
 
     
     
@@ -93,18 +66,95 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 //1. print the value when press the hold
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-
-    //store the current active player's score
-    scores[activePlayer] = scores[activePlayer] + roundScore; //scores array stores the current value and roundscore adds to it
+    if(gamePlaying){
+         //store the current active player's score
+        scores[activePlayer] = scores[activePlayer] + roundScore; //scores array stores the current value and roundscore adds to it
     
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; //scores assign to the possition
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; 
+    
+        //scores assign to the possition
+        nextPlayer();
 
+        //check is the player won the game
+        if(scores[activePlayer] >=10){
+            document.getElementById('name-' + activePlayer).textContent = 'Winner..!!';
+        
+            document.querySelector('.dice').style.display = 'none';
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('player' + activePlayer + 'panel').classList.remove('active');
+            gamePlaying = false;
+        }else{
+            //NextPlayer
+            nextPlayer();
+        }
+
+    }
+   
     
 
 
 
 
 })
+
+document.querySelector('.btn-new').addEventListener('click', init);
+    
+
+
+function nextPlayer(){
+    //Next player
+    if(activePlayer === 0){
+         activePlayer = 1;
+    }else{
+        activePlayer = 0;
+    
+
+    }
+    //after the every dice == 1, roundscore should be 0
+    roundScore = 0;
+
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+    // document.querySelector('.player-0-panel').classList.remove('active');
+    // document.querySelector('.player-1-panel').classList.add('active');
+
+    //toggle : a key or command that is operated the same way but with opposite effect on successive occasions.
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+
+    //Hide the dice to next player start
+    document.querySelector('.dice').style.display = 'none';
+}
+
+function init(){
+    scores = [0,0];
+    roundScore = 0;
+    activePlayer = 0;
+    gamePlaying = true;
+
+    document.querySelector('.dice').style.display = 'none';
+
+
+    document.getElementById('score-0').textContent = '0';
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+
+    document.getElementById('name-0').textContent = 'Player 1';
+    document.getElementById('name-1').textContent = 'Player 2';
+
+    //remove the winner status when click the new game
+    document.querySelector('.player-0-panel').classList.remove('winner');
+    document.querySelector('.player-1-panel').classList.remove('winner');
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
+    document.querySelector('.player-0-panel').classList.add('active');
+}
+
+
+
 
 
 
